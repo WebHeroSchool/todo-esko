@@ -1,6 +1,6 @@
 import React from 'react';
-import logo from './logo.svg';
 import './App.css';
+import * as numbers from './numbers';
 
 const a = 5;
 const b = true;
@@ -9,12 +9,11 @@ function App() {
   return (
     <div className="App">
       <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
         <p style={{
           color: "grey",
           fontSize: "2em",
         }}>
-          This string has own style
+          count({numbers.count}) * length({numbers.length}) = {numbers.multiply()}
         </p>
 
         <p>
