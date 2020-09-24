@@ -2,8 +2,8 @@ import React from 'react';
 import logo from './logo.svg';
 import './App.css';
 
-let a = 5;
-let b = true;
+const a = 5;
+const b = true;
 
 function App() {
   return (
