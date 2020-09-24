@@ -7,9 +7,9 @@ const b = true;
 
 function App() {
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
+    <div className="app">
+      <header className="app-header">
+        <img src={logo} className="app-logo" alt="logo" />
         <p style={{
           color: "grey",
           fontSize: "2em",
