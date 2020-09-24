@@ -1,12 +1,18 @@
 import React from 'react';
 
-const newEl = (
-  <div style={{
-    fontFamily: "sans-serif",
-  }}>
-    New Element from App.js<br />
-    Hi there
+const ListItem = () => (
+  <ol>
+    <li>1st task</li>
+    <li>2nd task</li>
+    <li>3rd task</li>
+  </ol>
+);
+
+const App = () => (
+  <div>
+    <h1>Current tasks:</h1>
+    <ListItem />
   </div>
 );
 
-export { newEl };
+export default App;
