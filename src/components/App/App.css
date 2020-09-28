@@ -1,0 +1,12 @@
+@font-face {
+  font-family: 'Roboto';
+  src: url(../../fonts/Roboto-Regular.ttf);
+  font-weight: 400;
+}
+
+.wrapper {
+  width: 320px;
+  margin: auto;
+  font-family: 'Roboto';
+  text-align: center;
+}

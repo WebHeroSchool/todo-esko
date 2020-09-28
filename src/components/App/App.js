@@ -17,10 +17,10 @@ const tasks = [
 ]
 
 const App = () => (
-  <div>
+  <div className='wrapper'>
     <h1>Todo list</h1>
-    <InputItem />
-    <ItemList tasks={tasks}/>
+    <InputItem className='app__input'/>
+    <ItemList tasks={tasks} className='app__list'/>
     <Footer tasksCounter={tasks.length}/>
   </div>
 );
