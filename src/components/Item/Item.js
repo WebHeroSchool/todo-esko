@@ -1,8 +1,8 @@
 import React from 'react';
 import './Item.css';
 
-const Item = ({value}) => (
-<li>{value}</li>
+const Item = ({task}) => (
+<li>{task}</li>
 );
 
 export default Item;
