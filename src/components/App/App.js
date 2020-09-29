@@ -2,7 +2,7 @@ import React from 'react';
 import InputItem from '../InputItem/InputItem';
 import ItemList from '../ItemList/ItemList';
 import Footer from '../Footer/Footer';
-import './App.css';
+import styles from './App.module.css';
 
 const tasks = [
   {
@@ -17,10 +17,10 @@ const tasks = [
 ]
 
 const App = () => (
-  <div className='wrapper'>
+  <div className={styles.wrapper}>
     <h1>Todo list</h1>
-    <InputItem className='app__input'/>
-    <ItemList tasks={tasks} className='app__list'/>
+    <InputItem />
+    <ItemList tasks={tasks} />
     <Footer tasksCounter={tasks.length}/>
   </div>
 );
