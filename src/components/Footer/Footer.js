@@ -2,7 +2,7 @@ import React from 'react';
 import './Footer.css';
 
 const Footer = ({tasksCounter}) => (
-<p>Осталось дел: {tasksCounter}</p>
+<p>Всего дел: {tasksCounter}</p>
 );
 
 export default Footer;

@@ -6,13 +6,20 @@ import styles from './App.module.css';
 
 const tasks = [
   {
-    value: 'Разобраться с props-ми'
+    value: 'Разобраться с props-ми',
+    isDone: true,
   },
   {
-    value: 'Впилить их в проект'
+    value: 'Впилить их в проект',
+    isDone: true,
   },
   {
-    value: 'Отпрвить его на проверку'
+    value: 'Отпрвить его на проверку',
+    isDone: true,
+  },
+  {
+    value: 'Закончить реализацию проекта',
+    isDone: false,
   }
 ]
 
