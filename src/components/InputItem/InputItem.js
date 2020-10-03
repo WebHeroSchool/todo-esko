@@ -23,7 +23,6 @@ export default function InputItem() {
         id="standard-basic"
         label="Новая задача:"
         fullWidth
-        color="green"
         size="small"/>
     </form>
   );
