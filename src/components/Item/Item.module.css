@@ -6,3 +6,18 @@
   text-decoration: line-through;
   color: #d0d0d0;
 }
+
+.container {
+  display: flex;
+  text-decoration: none;
+  align-items: center;
+}
+
+.deleteBtn {
+  display: none !important;
+  margin-left: auto;
+}
+
+.container:hover > .deleteBtn {
+  display: inline-block !important;
+}
