@@ -4,7 +4,7 @@ import Checkbox from '@material-ui/core/Checkbox';
 import classnames from 'classnames';
 import DeleteForeverIcon from '@material-ui/icons/DeleteForever';
 
-const Item = ({value, isDone, onClickDone}) => (
+const Item = ({value, isDone, onClickDone, id, deleteTask}) => (
   <li
     className={styles.container}
   >
@@ -12,7 +12,7 @@ const Item = ({value, isDone, onClickDone}) => (
         checked={isDone}
         color="default"
         inputProps={{ 'aria-label': 'checkbox with default color' }}
-        onClick = { () => onClickDone(isDone) }
+        onClick = { () => onClickDone(id) }
       />
     <p className={
       classnames({
@@ -20,8 +20,11 @@ const Item = ({value, isDone, onClickDone}) => (
         [styles.done]: isDone,
       })
     }
-    onClick = { () => onClickDone(isDone) }>{value}</p>
-    <DeleteForeverIcon className={styles.deleteBtn}></DeleteForeverIcon>
+    onClick = { () => onClickDone(id) }>{value}</p>
+    <DeleteForeverIcon
+      className={styles.deleteBtn}
+      onClick = { () => deleteTask(id) }
+    ></DeleteForeverIcon>
   </li>
 );
 
