@@ -3,9 +3,9 @@ import Button from '@material-ui/core/Button';
 import ButtonGroup from '@material-ui/core/ButtonGroup';
 import styles from './Footer.module.css';
 
-const Footer = ({tasksCounter, finishedTasks}) => (
+const Footer = ({activeCounter, finishedTasks}) => (
   <footer>
-    <p>Активных задач: {tasksCounter}</p>
+    <p>Активных задач: {activeCounter}</p>
     <p><small>Выполненых задач: {finishedTasks}</small></p>
 
     <ButtonGroup size='small' aria-label='small outlined button group' className={styles.m10}>
@@ -18,5 +18,10 @@ const Footer = ({tasksCounter, finishedTasks}) => (
     </Button>
   </footer>
 );
+
+Footer.defaultProps = {
+  activeCounter: 1,
+  finishedTasks: 0,
+}
 
 export default Footer;

@@ -28,4 +28,10 @@ const Item = ({value, isDone, onClickDone, id, deleteTask}) => (
   </li>
 );
 
+Item.defaultProps={  //без передачи задач из стейта вся логика ломается, но хоть не пустое окно остаётся
+  value: 'Обязательно! Задебажить передачу пропсов',
+  isDone: false,
+  id: 1,
+}
+
 export default Item;

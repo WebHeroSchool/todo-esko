@@ -104,7 +104,7 @@ class App extends React.Component {
         <h1>Todo list</h1>
         <InputItem addTask={this.addTask} />
         <ItemList tasks={this.state.tasks} onClickDone={this.onClickDone} deleteTask={this.deleteTask}/>
-        <Footer tasksCounter={this.state.activeCounter} finishedTasks={this.state.finishedCounter}/>
+        <Footer activeCounter={this.state.activeCounter} finishedTasks={this.state.finishedCounter}/>
       </div>
     )
   }
