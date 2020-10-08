@@ -1,6 +1,7 @@
 import React from 'react';
 import Item from '../Item/Item';
 import styles from'./ItemList.module.css';
+import PropTypes from 'prop-types';
 
 const ItemList = ({tasks, onClickDone, deleteTask}) => ( <ul className={styles.itemList}>
   {tasks.map( (task) =>
@@ -25,6 +26,10 @@ ItemList.defaultProps = { //без передачи задач из стейта
     isDone: false,
     id: 1,
   }]
+}
+
+Item.propTypes = {
+  tasks: PropTypes.array,
 }
 
 export default ItemList;
