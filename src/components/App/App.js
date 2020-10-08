@@ -5,8 +5,8 @@ import Footer from '../Footer/Footer';
 import styles from './App.module.css';
 
 class App extends React.Component {
-  render() {
-    const tasks = [
+  state = {
+    tasks: [
       {
         value: 'Разобраться с props-ми',
         isDone: true,
@@ -23,14 +23,16 @@ class App extends React.Component {
         value: 'Закончить реализацию проекта',
         isDone: false,
       }
-    ];
-    
+    ]
+  };
+
+  render() {
     return (
       <div className={styles.wrapper}>
         <h1>Todo list</h1>
         <InputItem />
-        <ItemList tasks={tasks} />
-        <Footer tasksCounter={tasks.length}/>
+        <ItemList tasks={this.state.tasks} />
+        <Footer tasksCounter={this.state.tasks.length}/>
       </div>
     )
   }
