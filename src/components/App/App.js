@@ -26,12 +26,14 @@ class App extends React.Component {
     ]
   };
 
+  onClickDone = (isDone) => console.log(isDone);
+
   render() {
     return (
       <div className={styles.wrapper}>
         <h1>Todo list</h1>
         <InputItem />
-        <ItemList tasks={this.state.tasks} />
+        <ItemList tasks={this.state.tasks} onClickDone={this.onClickDone} />
         <Footer tasksCounter={this.state.tasks.length}/>
       </div>
     )
