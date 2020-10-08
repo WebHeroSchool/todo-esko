@@ -30,6 +30,7 @@ class App extends React.Component {
     ],
     activeCounter: 1,
     finishedCounter: 3,
+    idCounter: 4,
   };
 
   onClickDone = (id) => {
@@ -52,23 +53,53 @@ class App extends React.Component {
     this.setState( {tasks: newTasks, activeCounter: active, finishedCounter: finished} )
   };
 
+  addTask = val => this.setState( state => ({
+    tasks: [
+      ...state.tasks,
+      {
+        id: state.idCounter + 1,
+        value: val,
+        isDone: false,
+      }
+    ],
+    activeCounter: state.activeCounter + 1,
+    idCounter: state.idCounter + 1,
+  }))
+
   deleteTask = (filteredId) => {
+    let isTaskDone = true;
     const newTasks = [];
     this.state.tasks.map(task => {
       if (task.id !== filteredId) {
         newTasks.push(task);
+      } else {
+        isTaskDone = task.isDone;
       }
     });
 
-    this.setState( {tasks: newTasks})
+    if (isTaskDone) {
+      this.setState( state => {
+        return {
+          tasks: newTasks,
+          finishedCounter: state.finishedCounter - 1,
+        }
+      })
+    } else {
+      this.setState( state => {
+        return {
+          tasks: newTasks,
+          activeCounter: state.activeCounter - 1,
+        }
+      })
+    }
   };
 
   render() {
     return (
       <div className={styles.wrapper}>
         <h1>Todo list</h1>
-        <InputItem />
-        <ItemList tasks={this.state.tasks} onClickDone={this.onClickDone} deleteTask={this.deleteTask} />
+        <InputItem addTask={this.addTask} />
+        <ItemList tasks={this.state.tasks} onClickDone={this.onClickDone} deleteTask={this.deleteTask}/>
         <Footer tasksCounter={this.state.activeCounter} finishedTasks={this.state.finishedCounter}/>
       </div>
     )

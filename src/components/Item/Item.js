@@ -10,7 +10,7 @@ const Item = ({value, isDone, onClickDone, id, deleteTask}) => (
   >
     <Checkbox
         checked={isDone}
-        color="default"
+        color='default'
         inputProps={{ 'aria-label': 'checkbox with default color' }}
         onClick = { () => onClickDone(id) }
       />

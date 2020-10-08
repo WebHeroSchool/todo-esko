@@ -6,14 +6,14 @@ import styles from './Footer.module.css';
 const Footer = ({tasksCounter, finishedTasks}) => (
   <footer>
     <p>Активных задач: {tasksCounter}</p>
-    <small>Выполненых задач: {finishedTasks}</small>
+    <p><small>Выполненых задач: {finishedTasks}</small></p>
 
-    <ButtonGroup size="small" aria-label="small outlined button group" className={styles.m10}>
+    <ButtonGroup size='small' aria-label='small outlined button group' className={styles.m10}>
       <Button>Все задачи</Button>
       <Button>Активные</Button>
       <Button>Завершённые</Button>
     </ButtonGroup>
-    <Button variant="contained" color="secondary">
+    <Button variant='contained' color='secondary'>
       Удалить выполненные
     </Button>
   </footer>

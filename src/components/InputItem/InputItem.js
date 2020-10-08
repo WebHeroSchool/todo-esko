@@ -1,35 +1,67 @@
 import React from 'react';
-import { makeStyles } from '@material-ui/core/styles';
 import TextField from '@material-ui/core/TextField';
+import Button from '@material-ui/core/Button';
+import Send from '@material-ui/icons/Send';
 
-const useStyles = makeStyles((theme) => ({
-  root: {
-    display: 'flex',
-    flexWrap: 'wrap',
-  },
-  textField: {
-    marginLeft: theme.spacing(1),
-    marginRight: theme.spacing(1),
-    width: '25ch',
-  },
-}));
+class InputItem extends React.Component {
+  
+  state = {
+    inputValue: '',
+    error: false,
+    errorMessage: '',
+    buttonColor: 'default',
+  }
 
-export default function InputItem() {
-  const classes = useStyles();
+  render() {
 
-  return (
-    <form className={classes.root} noValidate autoComplete="off">
-      <TextField
-        id="standard-basic"
-        label="Новая задача:"
-        fullWidth
-        size="small"/>
-    </form>
-  );
+    const { addTask } = this.props;
+
+    return (
+      <form
+        autoComplete='off'
+        style={ {display: 'flex', flexWrap: 'wrap', justifyContent: 'space-between'} }
+        onSubmit={ evt => {
+          evt.preventDefault();
+
+          if (this.state.inputValue === '') {
+            this.setState({errorMessage: 'Укажите задачу', error: true, buttonColor: 'secondary'})
+          } else {
+            this.setState({errorMessage: '', error: false, buttonColor: 'default'});
+            addTask(this.state.inputValue);
+            this.setState({inputValue: ''})
+          }
+        } }
+      >
+        <TextField
+          id='standard-basic'
+          label='Новая задача:'
+          size='small'
+          helperText={this.state.errorMessage}
+          style={ {width: '75%'} }
+          error={this.state.error}
+          value={this.state.inputValue}
+          onChange={evt => this.setState({
+            inputValue: evt.target.value.toUpperCase(), //Выпилить после проверки, мне такое не нравится)
+            errorMessage: '',
+            error: false,
+            buttonColor: 'primary',
+          })}
+          />
+
+        <Button
+          type='submit'
+          variant='contained'
+          color={this.state.buttonColor}
+          endIcon={
+            <Send
+              style={ { fontSize: '25px'} }
+            >
+            </Send>} 
+          style={ {width: '20%', padding: '0 5px', height: '48px'} }
+        ></Button>
+      </form>
+    );
+  }
 }
 
-// const InputItem = () => (
-//   <input type='text' placeholder='Type new task here' className={styles.input}/>
-// );
-
-// export default InputItem;
+export default InputItem
