@@ -3,11 +3,12 @@ import Button from '@material-ui/core/Button';
 import ButtonGroup from '@material-ui/core/ButtonGroup';
 import styles from './Footer.module.css';
 
-const Footer = ({tasksCounter}) => (
+const Footer = ({tasksCounter, finishedTasks}) => (
   <footer>
     <p>Активных задач: {tasksCounter}</p>
+    <small>Выполненых задач: {finishedTasks}</small>
 
-    <ButtonGroup size="small" aria-label="small outlined button group" className={styles.mb10}>
+    <ButtonGroup size="small" aria-label="small outlined button group" className={styles.m10}>
       <Button>Все задачи</Button>
       <Button>Активные</Button>
       <Button>Завершённые</Button>
