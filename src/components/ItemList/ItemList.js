@@ -1,6 +1,7 @@
 import React from 'react';
 import Item from '../Item/Item';
 import styles from'./ItemList.module.css';
+import PropTypes from 'prop-types'
 
 const ItemList = ({tasks, onClickDone, deleteTask}) => ( <ul className={styles.itemList}>
   {tasks.map( (task) =>
@@ -15,4 +16,7 @@ const ItemList = ({tasks, onClickDone, deleteTask}) => ( <ul className={styles.i
   </ul>
 );
 
+ItemList.propTypes = {
+  tasks: PropTypes.array,
+}
 export default ItemList;

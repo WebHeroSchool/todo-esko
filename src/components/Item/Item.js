@@ -3,6 +3,7 @@ import styles from'./Item.module.css';
 import Checkbox from '@material-ui/core/Checkbox';
 import classnames from 'classnames';
 import DeleteForeverIcon from '@material-ui/icons/DeleteForever';
+import PropTypes from 'prop-types'
 
 const Item = ({value, isDone, onClickDone, id, deleteTask}) => (
   <li
@@ -27,5 +28,11 @@ const Item = ({value, isDone, onClickDone, id, deleteTask}) => (
     ></DeleteForeverIcon>
   </li>
 );
+
+Item.propTypes = {
+  id: PropTypes.number.isRequired,
+  value: PropTypes.string.isRequired,
+  isDone: PropTypes.bool.isRequired,
+}
 
 export default Item;
