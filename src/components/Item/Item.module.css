@@ -1,6 +1,7 @@
 .item {
   text-align: left;
   cursor: default;
+  padding-left: 15px;
 }
 
 .done {
@@ -15,10 +16,11 @@
 }
 
 .deleteBtn {
-  display: none !important;
   margin-left: auto;
+  opacity: 0;
 }
 
 .container:hover > .deleteBtn {
-  display: inline-block !important;
+  opacity: 1;
+  transition: opacity .3s ease-in-out;
 }
