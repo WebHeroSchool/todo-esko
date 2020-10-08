@@ -46,11 +46,7 @@ class App extends React.Component {
     let active = 0;
     let finished = 0;
     newTasks.forEach(task => {
-      if (task.isDone === false) {
-        active += 1;
-      } else {
-        finished +=1;
-      }
+      (task.isDone === false) ? active += 1 : finished +=1;
     });
 
     this.setState( {tasks: newTasks, activeCounter: active, finishedCounter: finished} )
