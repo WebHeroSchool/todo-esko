@@ -41,7 +41,7 @@ class InputItem extends React.Component {
           error={this.state.error}
           value={this.state.inputValue}
           onChange={evt => this.setState({
-            inputValue: evt.target.value.toUpperCase(), //Выпилить после проверки, мне такое не нравится)
+            inputValue: evt.target.value,
             errorMessage: '',
             error: false,
             buttonColor: 'primary',
