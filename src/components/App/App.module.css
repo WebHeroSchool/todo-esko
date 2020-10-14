@@ -11,13 +11,37 @@
 }
 
 .wrapper {
-  min-width: 320px;
-  max-width: 480px;
+  max-width: 680px;
+  margin: auto;
+  display: flex;
+  justify-content: center;
+  flex-wrap: nowrap;
+  align-items: stretch;
+}
+
+.sidebar {
+  width: 130px;
+  padding: 5px;
+  border-radius: 5px;
+  filter: drop-shadow(5px 5px 5px grey);
+  background-color: #fff;
+  margin-right: 10px;
+  font-family: 'Roboto';
+  text-align: left;
+}
+
+.content {
+  flex: 1 1 360px;
   padding: 20px;
   border-radius: 5px;
   filter: drop-shadow(5px 5px 5px grey);
   background-color: #fff;
-  margin: auto;
+  margin: 0 auto;
   font-family: 'Roboto';
   text-align: center;
+}
+
+.link {
+  text-decoration: none !important;
+  color: #000 !important;
 }

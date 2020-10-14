@@ -2,6 +2,7 @@ import React from 'react';
 import Button from '@material-ui/core/Button';
 import ButtonGroup from '@material-ui/core/ButtonGroup';
 import styles from './Footer.module.css';
+import PropTypes from 'prop-types';
 
 const Footer = ({activeCounter, finishedTasks}) => (
   <footer>
@@ -18,6 +19,11 @@ const Footer = ({activeCounter, finishedTasks}) => (
     </Button>
   </footer>
 );
+
+Footer.propTypes = {
+  activeCounter: PropTypes.number,
+  finishedTasks: PropTypes.number,
+}
 
 Footer.defaultProps = {
   activeCounter: 1,

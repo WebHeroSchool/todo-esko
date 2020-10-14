@@ -1,109 +1,35 @@
 import React from 'react';
-import InputItem from '../InputItem/InputItem';
-import ItemList from '../ItemList/ItemList';
-import Footer from '../Footer/Footer';
+import Card from '@material-ui/core/Card';
+import MenuItem from '@material-ui/core/MenuItem';
+import MenuList from '@material-ui/core/MenuList';
+import Todo from '../Todo/Todo';
+import About from '../About/About';
+import Contacts from '../Contacts/Contacts';
 import styles from './App.module.css';
+import { BrowserRouter as Router, Link, Route } from 'react-router-dom'; 
 
-class App extends React.Component {
-  state = {
-    tasks: [
-      {
-        id: 1,
-        value: 'Разобраться с props-ми',
-        isDone: true,
-      },
-      {
-        id: 2,
-        value: 'Впилить их в проект',
-        isDone: true,
-      },
-      {
-        id: 3,
-        value: 'Отпрвить его на проверку',
-        isDone: true,
-      },
-      {
-        id: 4,
-        value: 'Закончить реализацию проекта',
-        isDone: false,
-      }
-    ],
-    activeCounter: 1,
-    finishedCounter: 3,
-    idCounter: 4,
-  };
-
-  onClickDone = (id) => {
-    const newTasks = this.state.tasks.map(task => {
-      const newTask = {...task};
-
-      if (newTask.id === id) {
-        newTask.isDone = !task.isDone;
-      }
-
-      return newTask;
-    }); 
-
-    let active = 0;
-    let finished = 0;
-    newTasks.forEach(task => {
-      (task.isDone === false) ? active += 1 : finished +=1;
-    });
-
-    this.setState( {tasks: newTasks, activeCounter: active, finishedCounter: finished} )
-  };
-
-  addTask = val => this.setState( state => ({
-    tasks: [
-      ...state.tasks,
-      {
-        id: state.idCounter + 1,
-        value: val,
-        isDone: false,
-      }
-    ],
-    activeCounter: state.activeCounter + 1,
-    idCounter: state.idCounter + 1,
-  }))
-
-  deleteTask = (filteredId) => {
-    let isTaskDone = true;
-    const newTasks = [];
-    this.state.tasks.map(task => {
-      if (task.id !== filteredId) {
-        newTasks.push(task);
-      } else {
-        isTaskDone = task.isDone;
-      }
-    });
-
-    if (isTaskDone) {
-      this.setState( state => {
-        return {
-          tasks: newTasks,
-          finishedCounter: state.finishedCounter - 1,
-        }
-      })
-    } else {
-      this.setState( state => {
-        return {
-          tasks: newTasks,
-          activeCounter: state.activeCounter - 1,
-        }
-      })
-    }
-  };
-
-  render() {
-    return (
+const App = () => {
+  return (
+    <Router>
       <div className={styles.wrapper}>
-        <h1>Todo list</h1>
-        <InputItem addTask={this.addTask} />
-        <ItemList tasks={this.state.tasks} onClickDone={this.onClickDone} deleteTask={this.deleteTask}/>
-        <Footer activeCounter={this.state.activeCounter} finishedTasks={this.state.finishedCounter}/>
+        <Card className={styles.sidebar}>
+          <MenuList>
+            <Link to='/' className={styles.link}><MenuItem>Обо мне</MenuItem></Link>
+            <Link to='/todo' className={styles.link}><MenuItem>Задачи</MenuItem></Link>
+            <Link to='/contacts' className={styles.link}><MenuItem>Контакты</MenuItem></Link>
+          </MenuList>
+        </Card>
+
+        <Card className={styles.content}>
+          <Route path='/' exact component={About} />
+          <Route path='/todo' component={Todo} />
+          <Route path='/contacts' component={Contacts} />
+        </Card>
       </div>
-    )
-  }
+      <p>Сделано в WebHeroSchool</p>
+      <div>Icons made by <a href="https://www.flaticon.com/authors/freepik" title="Freepik" target="blank">Freepik</a> from <a href="https://www.flaticon.com/" title="Flaticon" target="blank">www.flaticon.local</a></div>
+    </Router>
+  );
 }
 
 export default App;

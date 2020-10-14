@@ -1,0 +1,25 @@
+.icon {
+  width: 40px;
+  height: 40px;
+  margin-right: 10px;
+  transition: filter .3s ease-in-out;
+}
+
+.socialLink {
+  display: flex;
+  align-items: center;
+  margin-bottom: 10px;
+  text-decoration: none;
+  color: #000;
+  transition: color .3s ease-in-out;
+}
+
+.socialLink:hover {
+  color: rgb(66, 83, 175);
+  transition: color .3s ease-in-out;
+}
+
+.socialLink:hover > .icon {
+  filter: invert(55%) sepia(100%) hue-rotate(190deg);
+  transition: filter .3s ease-in-out;
+}

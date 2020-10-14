@@ -3,9 +3,15 @@ import styles from'./Item.module.css';
 import Checkbox from '@material-ui/core/Checkbox';
 import classnames from 'classnames';
 import DeleteForeverIcon from '@material-ui/icons/DeleteForever';
+import PropTypes from 'prop-types';
 
-const Item = ({value, isDone, onClickDone, id, deleteTask}) => (
-  <li
+class Item extends React.Component {
+
+  render() {
+    const {value, isDone, onClickDone, id, deleteTask} = this.props;
+
+    return (
+      <li
     className={styles.container}
   >
     <Checkbox
@@ -26,7 +32,15 @@ const Item = ({value, isDone, onClickDone, id, deleteTask}) => (
       onClick = { () => deleteTask(id) }
     ></DeleteForeverIcon>
   </li>
-);
+    )
+  }
+}
+
+Item.propTypes = {
+  id: PropTypes.number,
+  value: PropTypes.string,
+  isDone: PropTypes.bool,
+}
 
 Item.defaultProps={  //без передачи задач из стейта вся логика ломается, но хоть не пустое окно остаётся
   value: 'Обязательно! Задебажить передачу пропсов',
