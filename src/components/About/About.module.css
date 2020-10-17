@@ -8,15 +8,17 @@
 
 .userInfo {
   display: flex;
-  justify-content: space-around;
+  justify-content: space-between;
   width: 100%;
   margin-bottom: 2em;
 }
 
 .userAvatar {
   width: 150px;
+  height: 150px;
   border-radius: 50%;
   border: 5px solid rgb(66, 83, 175);
+  margin-right: 20px;
 }
 
 .userBio {
@@ -37,14 +39,26 @@
 }
 
 .userEmail {
+  display: block;
+  text-decoration: none;
+  text-align: right;
   margin: 0;
   color: #d0d0d0;
+}
+
+.userEmail:hover {
+  color: rgba(66, 83, 175, .8);
+  transition: color .4s ease-in-out;
 }
 
 .userBio,
 .userRepos {
   margin-top: .5em;
   margin-bottom: .5em;
+}
+
+.projectsList {
+  list-style: none;
 }
 
 .reposList {
@@ -54,16 +68,32 @@
 }
 
 .repo {
-  cursor: pointer;
   font-size: 1.2rem;
+  border-bottom: 1px solid rgb(66, 83, 175);
+  margin-bottom: 15px;
+}
+
+.repo::marker {
+  cursor: pointer;
 }
 
 .repoLink {
   text-decoration: none;
   color: #000;
 }
-.repo:hover,
-.repo:hover > .repoLink {
+
+.repoLink:hover {
   color: rgb(66, 83, 175);
   transition: color .4s ease-in-out;
+}
+
+.lang {
+  text-align: right;
+  font-size: .7em;
+  margin: 0 0 .5em;
+}
+
+.descr {
+  font-size: .8em;
+  margin: .5em 0;
 }

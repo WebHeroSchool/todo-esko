@@ -3,7 +3,6 @@ import telegram from '../../icons/telegram.png';
 import vk from '../../icons/vk.png';
 import whatsapp from '../../icons/whatsapp.png';
 import mail from '../../icons/mail-send.png';
-import instagram from '../../icons/instagram.png';
 import gitHub from '../../icons/github.png';
 import phone from '../../icons/smartphone.png';
 import styles from './Contacts.module.css';
@@ -44,14 +43,6 @@ const Contacts = () => {
           alt="GitHub_logo" />
           GitHub
       </a>
-      {/* <a href="https://instagram.com/Aug512"
-        target="blank"
-        className={styles.socialLink}>
-          <img src={instagram}
-          className={styles.icon}
-          alt="Instagram_logo" />
-          Instagram
-      </a> */}
       <a href="mailto:dmitriy.esko@gmail.com"
         target="blank"
         className={styles.socialLink}>
@@ -66,6 +57,20 @@ const Contacts = () => {
         alt="Phone_logo" />
         +7 (965) 015-7820
       </a>
+      <div className={styles.copyright}>Icons made by&nbsp;
+        <a href="https://www.flaticon.com/authors/freepik"
+          title="Freepik"
+          target="blank"
+          className={styles.copyrightLink}>
+            Freepik
+        </a> from&nbsp;
+        <a href="https://www.flaticon.com/"
+          title="Flaticon"
+          target="blank"
+          className={styles.copyrightLink}>
+            www.flaticon.com
+        </a>
+      </div>
     </div>
   )
 }

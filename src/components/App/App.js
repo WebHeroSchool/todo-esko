@@ -27,7 +27,6 @@ const App = () => {
         </Card>
       </div>
       <p>Сделано в WebHeroSchool</p>
-      <div>Icons made by <a href="https://www.flaticon.com/authors/freepik" title="Freepik" target="blank">Freepik</a> from <a href="https://www.flaticon.com/" title="Flaticon" target="blank">www.flaticon.local</a></div>
     </Router>
   );
 }

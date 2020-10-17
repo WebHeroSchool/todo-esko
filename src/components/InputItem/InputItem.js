@@ -12,9 +12,13 @@ class InputItem extends React.Component {
     buttonColor: 'default',
   }
 
+  throwErr = (message) => {
+    this.setState({errorMessage: message, error: true, buttonColor: 'secondary'})
+  }
+
   render() {
 
-    const { addTask } = this.props;
+    const { addTask, currentTasks } = this.props;
 
     return (
       <form
@@ -23,14 +27,23 @@ class InputItem extends React.Component {
         onSubmit={ evt => {
           evt.preventDefault();
 
-          if (this.state.inputValue === '') {
-            this.setState({errorMessage: 'Укажите задачу', error: true, buttonColor: 'secondary'})
+          let isTaskExist = false;
+
+          currentTasks.forEach( (task) => {
+            if (this.state.inputValue === task.value) {
+              isTaskExist = true;
+            }
+          });
+          
+          if (this.state.inputValue === '') { 
+            this.throwErr('Укажите задачу')
+          } else if (isTaskExist) {
+            this.throwErr('Такая задача уже существует')
           } else {
-            this.setState({errorMessage: '', error: false, buttonColor: 'default'});
             addTask(this.state.inputValue);
-            this.setState({inputValue: ''})
+            this.setState({errorMessage: '', error: false, buttonColor: 'default', inputValue: ''})
           }
-        } }
+        }}
       >
         <TextField
           id='standard-basic'
@@ -40,12 +53,21 @@ class InputItem extends React.Component {
           style={ {width: '75%'} }
           error={this.state.error}
           value={this.state.inputValue}
-          onChange={evt => this.setState({
-            inputValue: evt.target.value,
-            errorMessage: '',
-            error: false,
-            buttonColor: 'primary',
-          })}
+          onChange={evt => {
+            (evt.target.value) && this.setState({
+              inputValue: evt.target.value,
+              errorMessage: '',
+              error: false,
+              buttonColor: 'primary',
+            });
+            (!evt.target.value) && this.setState({
+              inputValue: evt.target.value,
+              errorMessage: '',
+              error: false,
+              buttonColor: 'default',
+            })
+          }
+        }
           />
 
         <Button
