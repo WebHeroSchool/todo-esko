@@ -48,51 +48,51 @@ const About = () => {
   const [errorMessage, setErrorMessage] = useState(initialState.errorMessage);
   const [user, getUser] = useState(initialState.user);
 
-  // useEffect( () => {    
-  //   octokit.repos.listForUser({
-  //     username: 'Aug512',
-  //   })
-  //   .then( repositories => {
-  //       getRepos(repositories.data);
-  //       setLoadingState(false);
-  //       console.log(repositories.data);
-  //   })
-  //   .catch( err => {
-  //     setLoadingState(false);
-  //     getError(err.status);
-  //   });
-  // }, [])
+  useEffect( () => {    
+    octokit.repos.listForUser({
+      username: 'Aug512',
+    })
+    .then( repositories => {
+        getRepos(repositories.data);
+        setLoadingState(false);
+        console.log(repositories.data);
+    })
+    .catch( err => {
+      setLoadingState(false);
+      getError(err.status);
+    });
+  }, [])
 
-  // useEffect( () => {    
-  //   octokit.users.getByUsername({
-  //     username: 'Aug512',
-  //   })
-  //   .then( userData => {
-  //     getUser(userData.data)
-  //   })
-  //   .catch( err => {
-  //     setLoadingState(false);
-  //     getError(true);
-  //     errProcessing(err.status);
-  //   });
-  // }, [])
+  useEffect( () => {    
+    octokit.users.getByUsername({
+      username: 'Aug512',
+    })
+    .then( userData => {
+      getUser(userData.data)
+    })
+    .catch( err => {
+      setLoadingState(false);
+      getError(true);
+      errProcessing(err.status);
+    });
+  }, [])
 
-  // const errProcessing = (errorCode) => {
-  //   switch (errorCode) {
-  //     case 403:
-  //       setErrorMessage('Ошибка доступа, попробуйте позже');
-  //       break;
-  //     case 404:
-  //       setErrorMessage('Пользователь не найден');
-  //       break;
-  //     case 500:
-  //       setErrorMessage('Внутренняя ошибка сервера, попробуйте позже');
-  //       break;
-  //     default:
-  //       setErrorMessage('Неизвестная ошибка');
-  //       break;
-  //   }
-  // }
+  const errProcessing = (errorCode) => {
+    switch (errorCode) {
+      case 403:
+        setErrorMessage('Ошибка доступа, попробуйте позже');
+        break;
+      case 404:
+        setErrorMessage('Пользователь не найден');
+        break;
+      case 500:
+        setErrorMessage('Внутренняя ошибка сервера, попробуйте позже');
+        break;
+      default:
+        setErrorMessage('Неизвестная ошибка');
+        break;
+    }
+  }
 
   return(
     <div className={styles.about}>

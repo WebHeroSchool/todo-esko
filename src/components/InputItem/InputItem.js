@@ -10,6 +10,7 @@ class InputItem extends React.Component {
     error: false,
     errorMessage: '',
     buttonColor: 'default',
+    isFocused: false,
   }
 
   throwErr = (message) => {
@@ -41,9 +42,17 @@ class InputItem extends React.Component {
             this.throwErr('Такая задача уже существует')
           } else {
             addTask(this.state.inputValue);
-            this.setState({errorMessage: '', error: false, buttonColor: 'default', inputValue: ''})
+            this.setState({errorMessage: '', error: false, buttonColor: 'default', inputValue: '', isFocused: false})
           }
         }}
+        onMouseLeave={ () => {
+          if (this.state.error) {
+            this.setState({errorMessage: '', error: false, buttonColor: 'default', inputValue: '', isFocused: false})
+          } else {
+            this.setState({errorMessage: '', error: false, isFocused: false})
+          }
+        }
+        }
       >
         <TextField
           id='standard-basic'
@@ -53,18 +62,24 @@ class InputItem extends React.Component {
           style={ {width: '75%'} }
           error={this.state.error}
           value={this.state.inputValue}
+          focused={this.state.isFocused}
+          onClick={ () => {
+            this.setState({isFocused: true})
+          }}
           onChange={evt => {
             (evt.target.value) && this.setState({
               inputValue: evt.target.value,
               errorMessage: '',
               error: false,
               buttonColor: 'primary',
+              isFocused: true,
             });
             (!evt.target.value) && this.setState({
               inputValue: evt.target.value,
               errorMessage: '',
               error: false,
               buttonColor: 'default',
+              isFocused: true,
             })
           }
         }

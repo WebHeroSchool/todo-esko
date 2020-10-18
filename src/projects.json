@@ -1,0 +1,14 @@
+{
+  "projects": [
+    {
+      "name": "Axion",
+      "description": "Пример вёрстки страницы обувного бренда для любителей скейтбординга",
+      "link": "https://axion-esko.vercel.app/"
+    },
+    {
+      "name": "Найди баг",
+      "description": "Таймкиллер на чистом JavaScript, позволяющий проверить свою интуицию",
+      "link": "https://js-final-project-esko.vercel.app/"
+    }
+  ]
+}

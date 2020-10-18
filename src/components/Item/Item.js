@@ -6,14 +6,18 @@ import classnames from 'classnames';
 import DeleteForeverIcon from '@material-ui/icons/DeleteForever';
 import PropTypes from 'prop-types';
 
-const Item = ({itemValue, isDone, isEditing, onClickDone, id, deleteTask, editTask, tempValue, setTempValue, aproveTask}) => {
+const Item = ({itemValue, isDone, isEditing, onClickDone, id, deleteTask, editTask, tempValue, setTempValue, aproveTask, editingError, errorMessage, setError, setErrorMessage}) => {
 
   if (isEditing) {
     return (
       <li className={styles.container}
-        onMouseLeave={ () => aproveTask(id, tempValue) }
+        onMouseLeave={ () => {
+          if (tempValue) {
+            aproveTask(id, tempValue)
+          }
+        }}
         onKeyPress={ (e) => {
-          if (e.key === 'Enter') {
+          if (e.key === 'Enter' && tempValue) {
             aproveTask(id, tempValue)
           }
          }
@@ -23,8 +27,20 @@ const Item = ({itemValue, isDone, isEditing, onClickDone, id, deleteTask, editTa
           size='small'
           fullWidth
           value={tempValue}
+          helperText={errorMessage || editingError}
+          error={editingError}
+          autoFocus={true}
+          autoComplete={'off'}
           onChange={evt => {
-            setTempValue(evt.target.value)
+            if (evt.target.value) {
+              setTempValue(evt.target.value);
+              setErrorMessage('');
+              setError(false);
+            } else {
+              setTempValue(evt.target.value);
+              setErrorMessage('Поле не должно быть пустым');
+              setError(true);
+            } 
           }
         }
         />
@@ -45,7 +61,8 @@ const Item = ({itemValue, isDone, isEditing, onClickDone, id, deleteTask, editTa
             [styles.done]: isDone,
           })
         }
-        onClick = { () => onClickDone(id) }>
+        // onClick = { () => onClickDone(id) }>
+        >
           {itemValue}
         </p>
         <DeleteForeverIcon

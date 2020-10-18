@@ -9,28 +9,28 @@ export default function Todo() {
     tasks: [
       {
         id: 1,
-        value: 'Разобраться с props-ми',
+        value: '1',
         isDone: true,
         isVisible: true,
         isEditing: false,
       },
       {
         id: 2,
-        value: 'Впилить их в проект',
+        value: '2',
         isDone: true,
         isVisible: true,
         isEditing: false,
       },
       {
         id: 3,
-        value: 'Отпрвить его на проверку',
+        value: '3',
         isDone: true,
         isVisible: true,
         isEditing: false,
       },
       {
         id: 4,
-        value: 'Закончить реализацию проекта',
+        value: '4',
         isDone: false,
         isVisible: true,
         isEditing: false,
@@ -41,6 +41,8 @@ export default function Todo() {
     idCounter: 4,
     filter: 'all',
     tempValue: '',
+    errorMessage: '',
+    editingError: false,
   };
 
   const [activeCounter, setActive] = useState(initialState.activeCounter);
@@ -49,6 +51,8 @@ export default function Todo() {
   const [idCounter, setIdCounter] = useState(initialState.idCounter);
   const [filter, setFliter] = useState(initialState.filter);
   const [tempValue, setTempValue] = useState(initialState.tempValue);
+  const [editingError, setError] = useState(initialState.editingError);
+  const [errorMessage, setErrorMessage] = useState(initialState.errorMessage);
 
   const onClickDone = (id) => {
     const newTasks = tasks.map(task => {
@@ -79,6 +83,7 @@ export default function Todo() {
 
   const editTask = (id, value) => {
     const newTasks = tasks.map(task => {
+
       const newTask = {...task};
 
       if (newTask.id === id) {
@@ -90,38 +95,69 @@ export default function Todo() {
 
     setTempValue(value)
     setTask(newTasks);
-    console.log('clicked № ' + id);
   };
 
-  const aproveTask = (id, value) => {
+  const throwErr = (message) => {
+    setErrorMessage(message);
+    setError(true);
+  }
+
+  const aproveTask = (id, tempValue) => {
+    let isTaskExist = false;
+    let isSimilar = false;
+    
     const newTasks = tasks.map(task => {
+
       const newTask = {...task};
 
+      if (tempValue === newTask.value) {
+        isTaskExist = true;       //Проверяем на совпадение с уже существующими задачами
+      }
+
       if (newTask.id === id) {
-        newTask.value = value;
+
+        if (tempValue === newTask.value && newTask.isEditing === true) {
+          isSimilar = true;       //Проверяем на совпадение с текущей (редактируемой) задачей
+        }
+
+        newTask.value = tempValue;
         newTask.isEditing = false;
       }
 
       return newTask;
-    }); 
+    }) 
 
-    setTempValue('')
-    setTask(newTasks);
-    console.log('№ ' + id + ' aproved!');
+    if (isTaskExist && !isSimilar) {      //Ошибка, если существует другая такая же задача
+      throwErr('Такая задача уже существует');
+      isTaskExist = false;
+    } else if (!isTaskExist || isSimilar) {       //Успех, если не существует другой такой же задачи, или это та же самая задача
+      setTask(newTasks);
+      isTaskExist = false;
+    }
   }
 
   const addTask = val => {
+
+    let isThisTaskVisible = true;
+
+    if (filter === 'finished') {
+      isThisTaskVisible = false
+    }
+
     const newTasks = [
       ...tasks,
       {
         id: idCounter + 1,
         value: val,
         isDone: false,
+        isVisible: isThisTaskVisible,
+        isEditing: false,
       }
-    ]
+    ]    
     setTask(newTasks);
     setActive(activeCounter + 1);
     setIdCounter(idCounter + 1);
+    console.log(newTasks);
   }
 
   const deleteTask = (filteredId) => {
@@ -157,6 +193,7 @@ export default function Todo() {
     tasks.forEach( task => {
       task.isVisible = true;
       newTasks.push(task);
+      console.log(task);
     });
     setTask(newTasks);
   }
@@ -192,7 +229,12 @@ export default function Todo() {
         editTask={editTask}
         aproveTask={aproveTask}
         tempValue={tempValue}
-        setTempValue={setTempValue}/>
+        setTempValue={setTempValue}
+        editingError={editingError}
+        errorMessage={errorMessage}
+        setError={setError}
+        setErrorMessage={setErrorMessage}
+        />
       <Footer
         activeCounter={activeCounter}
         finishedTasks={finishedCounter}

@@ -3,7 +3,7 @@ import Item from '../Item/Item';
 import styles from'./ItemList.module.css';
 import PropTypes from 'prop-types';
 
-const ItemList = ({tasks, onClickDone, deleteTask, editTask, tempValue, setTempValue, aproveTask}) => ( 
+const ItemList = ({tasks, onClickDone, deleteTask, editTask, tempValue, setTempValue, aproveTask, editingError, errorMessage,  setError, setErrorMessage}) => ( 
   <ul className={styles.itemList}>
     {tasks.map( (task) =>
       task.isVisible && <Item
@@ -18,6 +18,10 @@ const ItemList = ({tasks, onClickDone, deleteTask, editTask, tempValue, setTempV
         tempValue={tempValue}
         setTempValue={setTempValue}
         aproveTask={aproveTask}
+        editingError={editingError}
+        errorMessage={errorMessage}
+        setError={setError}
+        setErrorMessage={setErrorMessage}
       />
     )}
   </ul>
