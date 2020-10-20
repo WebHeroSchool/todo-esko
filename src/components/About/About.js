@@ -13,30 +13,29 @@ const About = () => {
   const importedProjects = Projects.projects;
 
   const initialState = {
-    isLoadingBio: false,
-    isLoadingRepos: false,
+    isLoading: true,
     repos: [
-      {
-        id: 276215960,
-        name: "FSD",
-        html_url: "https://github.com/Aug512/FSD",
-        description: 'Repo for FSD-courses',
-        language: 'CSS',
-      },
-      {
-        id: 285895356,
-        name: "WHS1stModule",
-        html_url: "https://github.com/Aug512/WHS1stModule",
-        description: 'Repo for 1st modle of WHS',
-        language: 'HTML',
-      },
-      {
-        id: 285895326,
-        name: "NoMatter",
-        html_url: "https://github.com/Aug512/WHS1stModule",
-        description: 'NoMatter',
-        language: 'JavaScript',
-      }
+      // {
+      //   id: 276215960,
+      //   name: "FSD",
+      //   html_url: "https://github.com/Aug512/FSD",
+      //   description: 'Repo for FSD-courses',
+      //   language: 'CSS',
+      // },
+      // {
+      //   id: 285895356,
+      //   name: "WHS1stModule",
+      //   html_url: "https://github.com/Aug512/WHS1stModule",
+      //   description: 'Repo for 1st modle of WHS',
+      //   language: 'HTML',
+      // },
+      // {
+      //   id: 285895326,
+      //   name: "NoMatter",
+      //   html_url: "https://github.com/Aug512/WHS1stModule",
+      //   description: 'NoMatter',
+      //   language: 'JavaScript',
+      // }
     ],
     projects: importedProjects,
     isError: false,
@@ -51,64 +50,64 @@ const About = () => {
     },
   }
 
-  const [isLoadingBio, setLoadingBioState] = useState(initialState.isLoadingBio);
-  const [isLoadingRepos, setLoadingRepoState] = useState(initialState.isLoadingRepos);
+  const [isLoading, setLoading] = useState(initialState.isLoading);
   const [repos, getRepos] = useState(initialState.repos);
   const [isError, getError] = useState(initialState.isError);
   const [errorMessage, setErrorMessage] = useState(initialState.errorMessage);
   const [user, getUser] = useState(initialState.user);
 
-  // useEffect( () => {    
-  //   octokit.repos.listForUser({
-  //     username: 'Aug512',
-  //   })
-  //   .then( repositories => {
-  //     getRepos(repositories.data);
-  //     setLoadingBioState(false);
-  //     console.log(repositories.data);
-  //   })
-  //   .catch( err => {
-  //     setLoadingBioState(false);
-  //     getError(err.status);
-  //   });
-  // }, [])
+  useEffect( () => {    
+    octokit.repos.listForUser({
+      username: 'Aug512',
+    })
+    .then( repositories => {
+      getRepos(repositories.data);
+      setLoading(false);
+      console.log(repositories.data);
+    })
+    .catch( err => {
+      setLoading(false);
+      getError(true);
+      errProcessing(err.status);
+    });
+  }, [])
 
-  // useEffect( () => {    
-  //   octokit.users.getByUsername({
-  //     username: 'Aug512',
-  //   })
-  //   .then( userData => {
-  //     getUser(userData.data);
-  //     setLoadingRepoState(false);
-  //   })
-  //   .catch( err => {
-  //     setLoadingRepoState(false);
-  //     getError(true);
-  //     errProcessing(err.status);
-  //   });
-  // }, [])
+  useEffect( () => {    
+    octokit.users.getByUsername({
+      username: 'Aug512',
+    })
+    .then( userData => {
+      getUser(userData.data);
+      setLoading(false);
+    })
+    .catch( err => {
+      setLoading(false);
+      getError(true);
+      errProcessing(err.status);
+    });
+  }, [])
 
-  // const errProcessing = (errorCode) => {
-  //   switch (errorCode) {
-  //     case 403:
-  //       setErrorMessage('Ошибка доступа, попробуйте позже... Где-то через час :)');
-  //       break;
-  //     case 404:
-  //       setErrorMessage('Пользователь не найден');
-  //       break;
-  //     case 500:
-  //       setErrorMessage('Внутренняя ошибка сервера, попробуйте позже');
-  //       break;
-  //     default:
-  //       setErrorMessage('Что-то пошло не так...');
-  //       break;
-  //   }
-  // }
+  const errProcessing = (errorCode) => {
+    switch (errorCode) {
+      case 403:
+        setErrorMessage('Ошибка доступа, попробуйте позже... Где-то через час :)');
+        break;
+      case 404:
+        setErrorMessage('Пользователь не найден');
+        break;
+      case 500:
+        setErrorMessage('Внутренняя ошибка сервера, попробуйте позже');
+        break;
+      default:
+        setErrorMessage('Что-то пошло не так...');
+        break;
+    }
+  }
 
   return(
     <div className={styles.about}>
-      {(isLoadingBio && isLoadingRepos) ? <CircularProgress /> : <div style={{width: '100%'}}>
-        {(!isLoadingRepos && isError) ? <span>{errorMessage}</span> : 
+      {(isLoading) ? <CircularProgress /> : <div style={{width: '100%'}}>
+        {(!isLoading && isError) ? <span>{errorMessage}</span> : 
           <div>
             <User user={user} projects={initialState.projects}/>
 

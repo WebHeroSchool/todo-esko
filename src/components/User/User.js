@@ -13,13 +13,13 @@ const User = ({user, projects}) => {
         </a>
         <a href="mailto:dmitriy.esko@gmail.com" className={styles.userEmail}><small>{user.email}</small></a>
         <p className={styles.userBio}>"{user.bio}"</p>
-        <ul className={styles.projectsList}>Проекты:
-          {projects.map( (project) => (<li key={project.name}>
-            <a href={project.link} target='blank' className={styles.projectLink}>{project.name}</a>
-            <p className={styles.descr}>{project.description}</p>
-          </li>))}
-        </ul>
       </div>
+      <ul className={styles.projectsList}>Проекты:
+        {projects.map( (project) => (<li key={project.name} className={styles.project}>
+          <a href={project.link} target='blank' className={styles.projectLink}>{project.name}</a>
+          <p className={styles.descr}>{project.description}</p>
+        </li>))}
+      </ul>
     </div>
   )
 }

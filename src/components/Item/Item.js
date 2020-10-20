@@ -58,10 +58,6 @@ const Item = ({
               setTempValue(evt.target.value);
               setErrorMessage('');
               setError(false);
-            } else {
-              setTempValue(evt.target.value);
-              setErrorMessage('Поле не должно быть пустым');
-              setError(true);
             } 
           }
         }
