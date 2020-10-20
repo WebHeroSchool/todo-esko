@@ -63,7 +63,6 @@ const About = () => {
     .then( repositories => {
       getRepos(repositories.data);
       setLoading(false);
-      console.log(repositories.data);
     })
     .catch( err => {
       setLoading(false);

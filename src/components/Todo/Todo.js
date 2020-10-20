@@ -168,8 +168,7 @@ export default function Todo() {
         
         window.localStorage.setItem(key, JSON.stringify(valueToStore));
       } catch (error) {
-        
-        console.log(error);
+        console.log(error)
       }
     };
   
@@ -297,7 +296,6 @@ export default function Todo() {
     setList(newTasks);
     setActive(activeCounter + 1);
     setIdCounter(idCounter + 1);
-    console.log(newTasks);
   }
 
   const deleteTask = (filteredId) => {
@@ -336,7 +334,6 @@ export default function Todo() {
     tasks.forEach( task => {
       task.isVisible = true;
       newTasks.push(task);
-      console.log(task);
     });
     setTask(newTasks);
     setList(newTasks);
