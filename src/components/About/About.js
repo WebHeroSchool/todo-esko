@@ -1,5 +1,6 @@
 import React, { useState, useEffect} from 'react';
 import CircularProgress from '@material-ui/core/CircularProgress';
+import User from './../User/User';
 import styles from './About.module.css';
 import { Octokit } from "@octokit/rest";
 import Projects from '../../projects.json';
@@ -38,7 +39,6 @@ const About = () => {
       html_url: "https://github.com/Aug512",
       login: "Aug512",
       name: 'Dmitriy Esko',
-      public_repos: 2,
     },
   }
 
@@ -53,9 +53,9 @@ const About = () => {
       username: 'Aug512',
     })
     .then( repositories => {
-        getRepos(repositories.data);
-        setLoadingState(false);
-        console.log(repositories.data);
+      getRepos(repositories.data);
+      setLoadingState(false);
+      console.log(repositories.data);
     })
     .catch( err => {
       setLoadingState(false);
@@ -80,7 +80,7 @@ const About = () => {
   const errProcessing = (errorCode) => {
     switch (errorCode) {
       case 403:
-        setErrorMessage('Ошибка доступа, попробуйте позже');
+        setErrorMessage('Ошибка доступа, попробуйте позже... Где-то через часик :)');
         break;
       case 404:
         setErrorMessage('Пользователь не найден');
@@ -89,7 +89,7 @@ const About = () => {
         setErrorMessage('Внутренняя ошибка сервера, попробуйте позже');
         break;
       default:
-        setErrorMessage('Неизвестная ошибка');
+        setErrorMessage('Что-то пошло не так...');
         break;
     }
   }
@@ -99,32 +99,16 @@ const About = () => {
       {(isLoading) ? <CircularProgress /> : <div style={{width: '100%'}}>
         {(!isLoading && isError) ? <span>{errorMessage}</span> : 
           <div>
-            <div className={styles.userInfo}>
-              <img src={user.avatar_url} alt="User's avatar" className={styles.userAvatar}/>
-              <div className={styles.userBio}>
-                <a href={user.html_url}
-                  target='blank'
-                  className={styles.userName}>
-                    {(user.name) ? user.name + ` (aka ${user.login})` : user.login }
-                </a>
-                <a href="mailto:dmitriy.esko@gmail.com" className={styles.userEmail}><small>{user.email}</small></a>
-                <p className={styles.userBio}>"{user.bio}"</p>
-                <ul className={styles.projectsList}>Проекты:
-                  {initialState.projects.map( (project) => (<li key={project.name}>
-                    <a href={project.link} target='blank' className={styles.repoLink}>{project.name}</a>
-                    <p className={styles.descr}>{project.description}</p>
-                  </li>))}
-                </ul>
-              </div>
-            </div>
-            <ol className={styles.reposList}>Репозитории:
+            <User user={user} projects={initialState.projects}/>
+
+            <ul className={styles.reposList}>Репозитории:
               {repos.map( (repo) => (<li key={repo.id} className={styles.repo}>
                   <a href={repo.html_url} target='blank' className={styles.repoLink}>{repo.name}</a>
-                  <p className={styles.lang}>Основной язык: {repo.language}</p>
+                  {(repo.language) ? <p className={styles.lang}>Основной язык: {repo.language}</p> : null}
                   <p className={styles.descr}>{repo.description}</p>
                 </li>
               ))}
-            </ol>
+            </ul>
           </div>}
       </div>}
     </div>  

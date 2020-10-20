@@ -2,6 +2,7 @@ import React from 'react';
 import Card from '@material-ui/core/Card';
 import MenuItem from '@material-ui/core/MenuItem';
 import MenuList from '@material-ui/core/MenuList';
+import Logo from './../../icons/SchoolLogo.png';
 import Todo from '../Todo/Todo';
 import About from '../About/About';
 import Contacts from '../Contacts/Contacts';
@@ -26,7 +27,7 @@ const App = () => {
           <Route path='/contacts' component={Contacts} />
         </Card>
       </div>
-      <p>Сделано в WebHeroSchool</p>
+      <a href="https://webheroschool.ru/" target='blank' className={styles.bottomLink}>Сделано в <img src={Logo} width='100px' style={{marginLeft: '5px'}} alt="WebHero Schol"/></a>
     </Router>
   );
 }

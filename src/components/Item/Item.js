@@ -48,7 +48,7 @@ const Item = ({itemValue, isDone, isEditing, onClickDone, id, deleteTask, editTa
     )
   } else {
     return (
-      <li className={styles.container} onDoubleClick={ () => editTask(id, itemValue) }>
+      <li className={styles.container}>
         <Checkbox
             checked={isDone}
             color='default'
@@ -59,8 +59,8 @@ const Item = ({itemValue, isDone, isEditing, onClickDone, id, deleteTask, editTa
           classnames({
             [styles.item]: true,
             [styles.done]: isDone,
-          })
-        }
+          })}
+          onDoubleClick={ () => editTask(id, itemValue) }
         // onClick = { () => onClickDone(id) }>
         >
           {itemValue}
