@@ -1,22 +1,25 @@
 .userInfo {
   display: flex;
   justify-content: space-between;
+  flex-wrap: wrap;
   width: 100%;
   margin-bottom: .8em;
 }
 
 .userAvatar {
-  width: 150px;
-  height: 150px;
+  width: 200px;
+  height: 200px;
   border-radius: 50%;
   border: 5px solid rgb(66, 83, 175);
   margin-right: 20px;
+  margin-bottom: 15px;
 }
 
 .userBio {
   text-decoration: none;
   color: #555;
   text-align: left;
+  margin-bottom: 15px;
 }
 
 .userName {
@@ -50,6 +53,23 @@
 
 .projectsList {
   list-style: none;
+  width: 90%;
+  margin: auto;
+  text-align: center;
+  list-style: none;
+  padding: 10px;
+  border-radius: 5px;
+  border: 1px solid #c4c4c4;
+  background-color: #f3f3f3;
+}
+
+.project {
+  font-size: 1.2rem;
+  border: 1px solid #c4c4c4;
+  border-radius: 5px;
+  background-color: #fff;
+  padding: 5px;
+  margin-bottom: 5px;
 }
 
 .projectsList li:first-child {
@@ -70,4 +90,42 @@
 .descr {
   font-size: .8em;
   margin: .5em 0;
+}
+
+@media (min-width: 320px) and (max-width: 579.98px) {
+  .userInfo {
+    flex-direction: column;
+  }
+
+  .userAvatar {
+    width: 45vw;
+    height: 45vw;
+    max-width: 250px;
+    max-height: 250px;
+    margin: 0 auto;
+  }
+
+  .userBio {
+    width: 85%;
+    margin: 10px auto 15px;
+    text-align: center;
+  }
+}
+
+@media (min-width: 580px) and (max-width: 679.98px) {
+  .userInfo {
+    flex-direction: column;
+  }
+
+  .userAvatar {
+    width: 250px;
+    height: 250px;
+    margin: 0 auto;
+  }
+
+  .userBio {
+    width: 85%;
+    margin: 10px auto 15px;
+    text-align: center;
+  }
 }

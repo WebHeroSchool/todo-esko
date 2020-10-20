@@ -202,6 +202,7 @@ export default function Todo() {
     }); 
 
     setTask(newTasks);
+    setList(newTasks);
 
     let active = 0;
     let finished = 0;
@@ -231,6 +232,7 @@ export default function Todo() {
 
     setTempValue(value)
     setTask(newTasks);
+    setList(newTasks);
   };
 
   const throwErr = (message) => {
@@ -268,6 +270,7 @@ export default function Todo() {
       isTaskExist = false;
     } else if (!isTaskExist || isSimilar) {       //Успех, если не существует другой такой же задачи, или это та же самая задача
       setTask(newTasks);
+      setList(newTasks);
       isTaskExist = false;
     }
   }
@@ -291,6 +294,7 @@ export default function Todo() {
       }
     ]    
     setTask(newTasks);
+    setList(newTasks);
     setActive(activeCounter + 1);
     setIdCounter(idCounter + 1);
     console.log(newTasks);
@@ -305,9 +309,11 @@ export default function Todo() {
 
     if (isTaskDone) {
       setTask(newTasks);
+      setList(newTasks);
       setFinished(finishedCounter - 1 );
     } else {
       setTask(newTasks);
+      setList(newTasks);
       setActive(activeCounter - 1 );
     }
   };
@@ -320,6 +326,7 @@ export default function Todo() {
       };
     })
     setTask(newTasks);
+    setList(newTasks);
     setFinished(0);
   }
 
@@ -332,6 +339,7 @@ export default function Todo() {
       console.log(task);
     });
     setTask(newTasks);
+    setList(newTasks);
   }
 
   const showActive = () => {
@@ -342,6 +350,7 @@ export default function Todo() {
       newTasks.push(task);
     });
     setTask(newTasks);
+    setList(newTasks);
   }
 
   const showFinished = () => {
@@ -352,6 +361,7 @@ export default function Todo() {
       newTasks.push(task);
     });
     setTask(newTasks);
+    setList(newTasks);
   }
 
   return (
