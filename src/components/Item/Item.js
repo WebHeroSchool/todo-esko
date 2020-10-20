@@ -6,7 +6,28 @@ import classnames from 'classnames';
 import DeleteForeverIcon from '@material-ui/icons/DeleteForever';
 import PropTypes from 'prop-types';
 
-const Item = ({itemValue, isDone, isEditing, onClickDone, id, deleteTask, editTask, tempValue, setTempValue, aproveTask, editingError, errorMessage, setError, setErrorMessage}) => {
+const Item = ({
+  itemValue,
+  isDone,
+  isEditing,
+  onClickDone,
+  id,
+  deleteTask,
+  editTask,
+  tempValue,
+  setTempValue,
+  aproveTask,
+  editingError,
+  errorMessage,
+  setError,
+  setErrorMessage,
+  onDragStart,
+  onDragOver,
+  onDrop,
+  onDragLeave,
+  index,
+  dragAndDrop,
+}) => {
 
   if (isEditing) {
     return (
@@ -21,7 +42,8 @@ const Item = ({itemValue, isDone, isEditing, onClickDone, id, deleteTask, editTa
             aproveTask(id, tempValue)
           }
          }
-        }>
+        }
+      >
         <TextField
           id='standard-basic'
           size='small'
@@ -48,12 +70,21 @@ const Item = ({itemValue, isDone, isEditing, onClickDone, id, deleteTask, editTa
     )
   } else {
     return (
-      <li className={styles.container}>
+      <li
+        className={dragAndDrop && dragAndDrop.draggedTo=== Number(index) ? styles.dropArea : styles.container}
+        data-position={index}
+        draggable
+        onDragStart={onDragStart}
+        onDragOver={onDragOver}
+        onDrop={onDrop}
+        onDragLeave={onDragLeave}
+      >
         <Checkbox
             checked={isDone}
             color='default'
             inputProps={{ 'aria-label': 'checkbox with default color' }}
             onClick = { () => onClickDone(id) }
+            className={styles.checkbox}
           />
         <p className={
           classnames({
@@ -61,7 +92,6 @@ const Item = ({itemValue, isDone, isEditing, onClickDone, id, deleteTask, editTa
             [styles.done]: isDone,
           })}
           onDoubleClick={ () => editTask(id, itemValue) }
-        // onClick = { () => onClickDone(id) }>
         >
           {itemValue}
         </p>
