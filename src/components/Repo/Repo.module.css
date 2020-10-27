@@ -21,21 +21,35 @@
   transition: color .4s ease-in-out;
 }
 
+.repoInfo {
+  display: flex;
+  flex-direction: row-reverse;
+}
+
 .lang {
   text-align: right;
   font-size: .7em;
   margin: 0 0 .5em;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
 }
 
 .langValue {
+  font-size: 0.8em;
   color: #fff;
   border-radius: 3px;
   padding: 2px;
   margin-left: 2px;
+  margin-bottom: 2px;
 }
 
 .css {
   background-color: rgba(88, 61, 120, .8);
+}
+
+.scss {
+  background-color: rgba(201, 81, 137, .8);
 }
 
 .html {
@@ -43,10 +57,12 @@
 }
 
 .js {
+  color: #000;
   background-color: rgba(240, 223, 110, .8);
 }
 
 .descr {
   font-size: .8em;
   margin: .5em 0;
+  width: 100%;
 }

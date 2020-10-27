@@ -10,7 +10,7 @@ const ItemList = ({
   editTask,
   tempValue,
   setTempValue,
-  aproveTask,
+  approveTask,
   editingError,
   errorMessage,
   setError,
@@ -35,7 +35,7 @@ const ItemList = ({
           editTask={editTask}
           tempValue={tempValue}
           setTempValue={setTempValue}
-          aproveTask={aproveTask}
+          approveTask={approveTask}
           editingError={editingError}
           errorMessage={errorMessage}
           setError={setError}

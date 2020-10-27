@@ -1,4 +1,4 @@
-import React from 'react';
+import React from "react";
 import styles from'./Item.module.css';
 import Checkbox from '@material-ui/core/Checkbox';
 import TextField from '@material-ui/core/TextField';
@@ -16,7 +16,7 @@ const Item = ({
   editTask,
   tempValue,
   setTempValue,
-  aproveTask,
+  approveTask,
   editingError,
   errorMessage,
   setError,
@@ -29,17 +29,31 @@ const Item = ({
   dragAndDrop,
 }) => {
 
+  const handleClickOutside = (e) => {
+  
+    const textField = document.getElementById('standard-basic');
+
+    if (tempValue) {
+      const nodes = e.composedPath();
+      
+      if (!nodes.includes(textField)) {
+
+        if (tempValue) {
+          approveTask(id, tempValue);
+          document.removeEventListener('click', handleClickOutside)
+        }
+      }
+    }
+  }
+
   if (isEditing) {
+    
     return (
       <li className={styles.container}
-        onMouseLeave={ () => {
-          if (tempValue) {
-            aproveTask(id, tempValue)
-          }
-        }}
+        id='editing'
         onKeyPress={ (e) => {
           if (e.key === 'Enter' && tempValue) {
-            aproveTask(id, tempValue)
+            approveTask(id, tempValue)
           }
          }
         }
@@ -58,12 +72,17 @@ const Item = ({
               setTempValue(evt.target.value);
               setErrorMessage('');
               setError(false);
-            } 
-          }
-        }
+            } else {
+              setTempValue(evt.target.value);
+              setErrorMessage('Поле не должно быть пустым');
+              setError(true);
+            }
+          }}
+          onMouseLeave={document.addEventListener('click', handleClickOutside)}
         />
       </li>
     )
+    
   } else {
     return (
       <li

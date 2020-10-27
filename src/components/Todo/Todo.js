@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import InputItem from '../InputItem/InputItem';
 import ItemList from '../ItemList/ItemList';
 import Footer from '../Footer/Footer';
@@ -65,11 +65,30 @@ export default function Todo() {
     isDragging: false,
     originalOrder: [],
     updatedOrder: []
-   }
+  }
     
+  useEffect(() => {
+    document.addEventListener('click', handleClickOutside);
+    return () => {document.removeEventListener('click', handleClickOutside)}
+  });
+
+  const handleClickOutside = (e) => {
+    // Получаем ссылку на элемент, при клике на который, скрытие не будет происходить
+    const textField = document.getElementById('editing');
+    
+    if (textField) {
+      const nodes = e.composedPath();
+      const taskId = textField.getAttribute('data')
+
+      if (!nodes.includes(textField)) {
+        
+        approveTask(+taskId, tempValue);
+      }
+    }
+  }
+
   const [list, setList] = useState(initialState.tasks);
   const [dragAndDrop, setDragAndDrop] = useState(initialDnDState);
-  
   
   // onDragStart fires when an element
   // starts being dragged
@@ -82,7 +101,6 @@ export default function Todo() {
     isDragging: true,
     originalOrder: list
     });
-    
     
     // Note: this is only for Firefox.
     // Without it, the DnD won't work.
@@ -138,7 +156,6 @@ export default function Todo() {
       isDragging: false
     });
   }
-  
   
   const onDragLeave = () => {
     setDragAndDrop({
@@ -239,7 +256,7 @@ export default function Todo() {
     setError(true);
   }
 
-  const aproveTask = (id, tempValue) => {
+  const approveTask = (id, tempValue) => {
     let isTaskExist = false;
     let isSimilar = false;
     
@@ -247,7 +264,7 @@ export default function Todo() {
 
       const newTask = {...task};
 
-      if (tempValue === newTask.value) {
+      if (tempValue === newTask.value && id !== newTask.id) {
         isTaskExist = true;       //Проверяем на совпадение с уже существующими задачами
       }
 
@@ -308,11 +325,11 @@ export default function Todo() {
     if (isTaskDone) {
       setTask(newTasks);
       setList(newTasks);
-      setFinished(finishedCounter - 1 );
+      setFinished(finishedCounter - 1);
     } else {
       setTask(newTasks);
       setList(newTasks);
-      setActive(activeCounter - 1 );
+      setActive(activeCounter - 1);
     }
   };
 
@@ -370,7 +387,7 @@ export default function Todo() {
         onClickDone={onClickDone}
         deleteTask={deleteTask}
         editTask={editTask}
-        aproveTask={aproveTask}
+        approveTask={approveTask}
         tempValue={tempValue}
         setTempValue={setTempValue}
         editingError={editingError}
@@ -389,7 +406,8 @@ export default function Todo() {
         showAll={showAll}
         showActive={showActive}
         showFinished={showFinished}
-        deleteFinished={deleteFinished}/>
+        deleteFinished={deleteFinished}
+        filter={filter}/>
     </div>
   )
 }

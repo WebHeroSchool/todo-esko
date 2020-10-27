@@ -2,24 +2,31 @@ import React from 'react';
 import styles from './Repo.module.css';
 import classnames from 'classnames';
 
-const Repo = ({repo}) => {
+const Repo = ({repo, isLoaded}) => {
 
   return(
     <li className={styles.repo}>
-      <a href={repo.html_url} target='blank' className={styles.repoLink}>{repo.name}</a>
-      {(repo.language) ?
-        <p className={styles.lang}>Основной язык:
-          <span className={
-            classnames({
-              [styles.langValue]: true,
-              [styles.css]: repo.language==='CSS',
-              [styles.html]: repo.language==='HTML',
-              [styles.js]: repo.language==='JavaScript',
-            })
-          }>{repo.language}</span>
-        </p> :
-        null}
-      <p className={styles.descr}>{repo.description}</p>
+      {(isLoaded) ? <div>
+        <a href={repo.html_url} target='blank' className={styles.repoLink}>{repo.name}</a>
+        <div className={styles.repoInfo}>
+          <div className={styles.lang}>
+            <span style={{marginBottom: '5px'}}>Языки:</span>        
+            {repo.langs.map( lang => {
+              return (<span key={lang} className={
+                classnames({
+                  [styles.langValue]: true,
+                  [styles.css]: lang==='CSS',
+                  [styles.html]: lang==='HTML',
+                  [styles.js]: lang==='JavaScript',
+                  [styles.scss]: lang==='SCSS',
+                })
+              }>{lang}</span>)
+            })}
+          </div>
+        <p className={styles.descr}>{repo.description}</p>
+        </div>
+      </div> : <div></div>
+      }
     </li>
   )
 }

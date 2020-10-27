@@ -16,3 +16,19 @@
   border: 1px solid #c4c4c4;
   background-color: #f3f3f3;
 }
+
+.pagination {
+  display: flex;
+  justify-content: center;
+  width: 100%;
+}
+
+.page {
+  font-size: 0.9em;
+  padding: 2px 3px;
+  border: 1px solid #c4c4c4;
+  background-color: #fff;
+  border-radius: 2px;
+  margin: 2px;
+  cursor: pointer;
+}

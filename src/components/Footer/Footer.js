@@ -9,12 +9,28 @@ const Footer = ({
   showAll,
   showActive,
   showFinished,
-  deleteFinished}) => (
+  deleteFinished,
+  filter}) => (
     <footer>
       <ButtonGroup size='small' aria-label='small outlined button group' style={{margin: '10px 0'}}>
-        <Button onClick={showAll}>Все задачи ({activeCounter + finishedTasks})</Button>
-        <Button onClick={showActive}>Активные ({activeCounter})</Button>
-        <Button onClick={showFinished}>Завершённые ({finishedTasks})</Button>
+        <Button
+          variant={(filter === 'all') ? 'contained' : 'outlined'}
+          onClick={showAll}
+        >
+          Все задачи ({activeCounter + finishedTasks})
+        </Button>
+        <Button 
+          variant={(filter === 'active') ? 'contained' : 'outlined'}
+          onClick={showActive}
+        >
+          Активные ({activeCounter})
+        </Button>
+        <Button
+          variant={(filter === 'finished') ? 'contained' : 'outlined'}
+          onClick={showFinished}
+        >
+          Завершённые ({finishedTasks})
+        </Button>
       </ButtonGroup>
       <Button variant='contained' color='primary' onClick={deleteFinished}>
         Удалить выполненные

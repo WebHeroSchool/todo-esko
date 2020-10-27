@@ -55,7 +55,7 @@ class InputItem extends React.Component {
         }
       >
         <TextField
-          id='standard-basic'
+          id='outlined-basic'
           label='Новая задача:'
           size='small'
           helperText={this.state.errorMessage}

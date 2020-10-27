@@ -11,7 +11,7 @@ const User = ({user, projects}) => {
           className={styles.userName}>
             {(user.name) ? user.name + ` (aka ${user.login})` : user.login }
         </a>
-        <a href="mailto:dmitriy.esko@gmail.com" className={styles.userEmail}><small>{user.email}</small></a>
+        <a href="mailto:dmitriy.esko@gmail.com" className={styles.userEmail}><small>{(user.email) ? user.email : 'dmitriy.esko@gmail.com'}</small></a>
         <p className={styles.userBio}>"{user.bio}"</p>
       </div>
       <ul className={styles.projectsList}>Проекты:

@@ -46,6 +46,13 @@
   color: #000 !important;
 }
 
+.activeLink {
+  text-decoration: none !important;
+  color: #000 !important;
+  border: 1px solid black;
+  border-radius: 3px;
+}
+
 .bottomLink {
   font-family: 'Roboto';
   text-decoration: none;
