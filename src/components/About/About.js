@@ -8,9 +8,7 @@ import Projects from '../../projects.json';
 
 const About = () => {
 
-  const octokit = new Octokit({
-    //auth: "5b7890856038715e412de7e0212979c6b47173d4",
-  });
+  const octokit = new Octokit();
 
   const importedProjects = Projects.projects;
 
