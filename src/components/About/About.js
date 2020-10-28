@@ -74,10 +74,8 @@ const About = () => {
     console.log(counter);
     if (pagesCounter % 2 === 1) {
       calculatedPages = Math.ceil(counter / 2);
-      console.log(calculatedPages);
     } else {
       calculatedPages = counter / 2 ;
-      console.log(calculatedPages);
     }
     return calculatedPages;
   }
