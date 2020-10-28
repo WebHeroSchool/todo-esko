@@ -8,7 +8,14 @@ import Projects from '../../projects.json';
 
 const About = () => {
 
-  const octokit = new Octokit();
+  const octokit = new Octokit(
+    // {
+    //   auth: 'deleteTextAndPlus+41e32cc6aebf5ac8a6c18b83a0f0481f99d1cd81',
+    // }
+    // GitHub автоматически удаляет токены, если они обнаружены в открытых коммитах, поэтому оставляю так,
+    // если для проверки потребуется больше 60-ти запросов в час
+    // после проверки, скорее всего, токе обновлю, безопасность, все дела)
+  );
 
   const importedProjects = Projects.projects;
 
@@ -17,33 +24,9 @@ const About = () => {
     projects: importedProjects,
     isError: false,
     errorMessage: '',
-    user: {
-      // avatar_url: "https://avatars1.githubusercontent.com/u/67374673?v=4",
-      // bio: "I'm just trying to code something",
-      // email: "dmitriy.esko@gmail.com",
-      // html_url: "https://github.com/Aug512",
-      // login: "Aug512",
-      // name: 'Dmitriy Esko',
-      // public_repos: 10,
-    },
+    user: {},
     renderedRepos: {
-      pages: 2,
-      repos: [
-        // {
-        //   id: 276215960,
-        //   name: "FSD",
-        //   html_url: "https://github.com/Aug512/FSD",
-        //   description: 'Repo for FSD-courses',
-        //   langs: [ 'CSS', 'HTML', 'JavaScript', 'SCSS' ]
-        // },
-        // {
-        //   id: 285895356,
-        //   name: "WHS1stModule",
-        //   html_url: "https://github.com/Aug512/WHS1stModule",
-        //   description: 'Repo for 1st modle of WHS',
-        //   langs: [ 'CSS', 'HTML', 'JavaScript' ]
-        // }
-      ],
+      repos: [],
       currentPage: 1,
       isReposLoaded: false,
     }
@@ -56,38 +39,43 @@ const About = () => {
   const [user, getUser] = useState(initialState.user);
 
   useEffect( () => {
-    getUserdata();
-  }, []);
+    const fetchData = async () => {
+      const data = await getUserdata();
+      const pages = await data.data.public_repos;
+      const recievedRepos = await getNewRepos(1);
 
-  useEffect( () => {
-    showReposLoader(true);
-    updateRepos(1);
-  }, [user])
+      const newRepos = {...renderedRepos};
+      newRepos.repos =  await recievedRepos;
+      newRepos.isReposLoaded = true;
+      newRepos.currentPage = 1;
+      newRepos.pages = await setTotalPages(pages);
+
+      setRenderedRepos(newRepos);
+    }
+    fetchData()
+  }, []);
 
   useEffect( () => {
     showReposLoader(true);
     updateRepos(renderedRepos.currentPage)
   }, [renderedRepos.currentPage]);
 
-  const showReposLoader = (loadState) => {
+  const showReposLoader = async (loadState) => {
+    const state = await loadState;
     const loadRepos = {...renderedRepos}
-    loadRepos.isReposLoaded = !loadState;
+    loadRepos.isReposLoaded = !state;
     setRenderedRepos(loadRepos);
   }
 
   const setTotalPages = async (pagesCounter) => {
-    const counter = await pagesCounter;
-    console.log(counter);
-    const reposWithPages = {...renderedRepos};
     let calculatedPages = 1;
-    if (counter % 2 === 1) {
+    const counter = await pagesCounter;
+    if (pagesCounter % 2 === 1) {
       calculatedPages = counter / 2 + 1;
     } else {
       calculatedPages = counter / 2 ;
     }
-    console.log(calculatedPages);
-    reposWithPages.pages = calculatedPages;
-    setRenderedRepos(reposWithPages);
+    return calculatedPages;
   }
 
   const setCurrentPage = (newPage) => {
@@ -96,56 +84,23 @@ const About = () => {
     setRenderedRepos(updatedRepos);
   }
 
-  // const getNewRepos = (page) => {
-  //   let requestedRepos = [];
-  //   showReposLoader(true);
-  //   octokit.request(`GET /users/Aug512/repos?page=${page}&per_page=2`)
-  //   .then( repositories => {
-  //     requestedRepos = repositories.data.slice(0);
-  //     return requestedRepos;
-  //   })
-  //   .then ( (requestedRepos) => {
-  //     for (let repo of requestedRepos) {
-  //       repo.langs = getLangs(repo);
-  //     }
-  //     return (requestedRepos)
-  //   })
-  //   .then( requestedRepos => {
-  //     const newRepos = {...renderedRepos};
-  //     setTotalPages(user.public_repos);
-  //     newRepos.repos = requestedRepos;
-  //     newRepos.isReposLoaded = true;
-  //     newRepos.currentPage = page;
-  //     console.log(newRepos);
-  //     setRenderedRepos(newRepos)
-  //   })
-  //   .catch( err => {
-  //     setLoading(false);
-  //     getError(true);
-  //     errProcessing(err.status);
-  //   });
-  // }
-
   const getUserdata = async () => {
-    const userData = await octokit.users.getByUsername({
-      username: 'Aug512',
-     }).catch( err => {
+    const userData = await octokit.request(`GET /users/Aug512`)
+    .catch( err => {
       setLoading(false);
       getError(true);
       errProcessing(err.status);
     });
-    getUser(userData.data);
-    console.log(userData.data);
-    setTotalPages(userData.data.public_repos);
     setLoading(false);
+    getUser(userData.data);
+    return userData;
   }
 
   const getNewRepos = async (page) => {
     let requestedRepos = [];
-    // showReposLoader(true);
+    showReposLoader(true);
     const response = await octokit.request(`GET /users/Aug512/repos?page=${page}&per_page=2`);
     requestedRepos = response.data;
-    console.log(requestedRepos);
     for (let repo of requestedRepos) {
       repo.langs = await getLangs(repo);
     };
@@ -159,12 +114,10 @@ const About = () => {
     newRepos.isReposLoaded = true;
     newRepos.currentPage = page;
     setRenderedRepos(newRepos);
-    console.log(newRepos);
   }
 
   const getLangs = async (repo) => {
     const response = await octokit.request(`GET /repos/Aug512/${repo.name}/languages`);
-    console.log(response.data);
     return Object.keys(response.data);
   }
 

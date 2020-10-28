@@ -33,11 +33,12 @@
   display: flex;
   flex-direction: column;
   align-items: flex-end;
+  border-left: 1px solid #c4c4c4;
+  flex: 1;
 }
 
 .langValue {
   font-size: 0.8em;
-  color: #fff;
   border-radius: 3px;
   padding: 2px;
   margin-left: 2px;
@@ -45,14 +46,17 @@
 }
 
 .css {
+  color: #fff;
   background-color: rgba(88, 61, 120, .8);
 }
 
 .scss {
+  color: #fff;
   background-color: rgba(201, 81, 137, .8);
 }
 
 .html {
+  color: #fff;
   background-color: rgba(230, 71, 47, .8);
 }
 
@@ -64,5 +68,6 @@
 .descr {
   font-size: .8em;
   margin: .5em 0;
-  width: 100%;
+  flex: 6;
+  padding-right: 5px;
 }
