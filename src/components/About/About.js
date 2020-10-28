@@ -10,12 +10,13 @@ const About = () => {
 
   const octokit = new Octokit(
     // {
-    //   auth: 'deleteTextAndPlus+41e32cc6aebf5ac8a6c18b83a0f0481f99d1cd81',
+    //   auth: 'deleteTextAndPluses+5f1c1989+9c189582535c60e0c9112+e6f2b3a36c4',
     // }
+  );
+
     // GitHub автоматически удаляет токены, если они обнаружены в открытых коммитах, поэтому оставляю так,
     // если для проверки потребуется больше 60-ти запросов в час
-    // после проверки, скорее всего, токе обновлю, безопасность, все дела)
-  );
+    // после проверки, скорее всего, токен обновлю, безопасность, все дела)
 
   const importedProjects = Projects.projects;
 
@@ -70,10 +71,13 @@ const About = () => {
   const setTotalPages = async (pagesCounter) => {
     let calculatedPages = 1;
     const counter = await pagesCounter;
+    console.log(counter);
     if (pagesCounter % 2 === 1) {
-      calculatedPages = counter / 2 + 1;
+      calculatedPages = Math.ceil(counter / 2);
+      console.log(calculatedPages);
     } else {
       calculatedPages = counter / 2 ;
+      console.log(calculatedPages);
     }
     return calculatedPages;
   }
