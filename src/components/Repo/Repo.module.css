@@ -1,0 +1,73 @@
+.repo {
+  font-size: 1.2rem;
+  border: 1px solid #c4c4c4;
+  border-radius: 5px;
+  background-color: #fff;
+  padding: 5px;
+  margin-bottom: 5px;
+}
+
+.repo:first-child {
+  margin-top: 15px;
+}
+
+.repoLink {
+  text-decoration: none;
+  color: #000;
+}
+
+.repoLink:hover {
+  color: rgb(66, 83, 175);
+  transition: color .4s ease-in-out;
+}
+
+.repoInfo {
+  display: flex;
+  flex-direction: row-reverse;
+}
+
+.lang {
+  text-align: right;
+  font-size: .7em;
+  margin: 0 0 .5em;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  border-left: 1px solid #c4c4c4;
+  flex: 1;
+}
+
+.langValue {
+  font-size: 0.8em;
+  border-radius: 3px;
+  padding: 2px;
+  margin-left: 2px;
+  margin-bottom: 2px;
+}
+
+.css {
+  color: #fff;
+  background-color: rgba(88, 61, 120, .8);
+}
+
+.scss {
+  color: #fff;
+  background-color: rgba(201, 81, 137, .8);
+}
+
+.html {
+  color: #fff;
+  background-color: rgba(230, 71, 47, .8);
+}
+
+.js {
+  color: #000;
+  background-color: rgba(240, 223, 110, .8);
+}
+
+.descr {
+  font-size: .8em;
+  margin: .5em 0;
+  flex: 6;
+  padding-right: 5px;
+}

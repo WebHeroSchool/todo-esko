@@ -3,30 +3,57 @@ import Item from '../Item/Item';
 import styles from'./ItemList.module.css';
 import PropTypes from 'prop-types';
 
-const ItemList = ({tasks, onClickDone, deleteTask}) => ( <ul className={styles.itemList}>
-  {tasks.map( (task) =>
-    <Item
-      key={task.value} 
-      value={task.value}
-      isDone={task.isDone}
-      id={task.id}
-      onClickDone={onClickDone}
-      deleteTask={deleteTask}
-    />)}
-  </ul>
+const ItemList = ({
+  tasks,
+  onClickDone,
+  deleteTask,
+  editTask,
+  tempValue,
+  setTempValue,
+  approveTask,
+  editingError,
+  errorMessage,
+  setError,
+  setErrorMessage,
+  onDragStart,
+  onDragOver,
+  onDrop,
+  onDragLeave,
+  dragAndDrop,
+}) => (
+  <div>
+    {(tasks.length !== 0) && <ul className={styles.itemList}>
+      {tasks.map( (task, index) =>
+        task.isVisible && <Item
+          key={task.id} 
+          itemValue={task.value}
+          isDone={task.isDone}
+          isEditing={task.isEditing}
+          id={task.id}
+          onClickDone={onClickDone}
+          deleteTask={deleteTask}
+          editTask={editTask}
+          tempValue={tempValue}
+          setTempValue={setTempValue}
+          approveTask={approveTask}
+          editingError={editingError}
+          errorMessage={errorMessage}
+          setError={setError}
+          setErrorMessage={setErrorMessage}
+          index={index}
+          onDragStart={onDragStart}
+          onDragOver={onDragOver}
+          onDrop={onDrop}
+          onDragLeave={onDragLeave}
+          dragAndDrop={dragAndDrop}
+        />
+      )}
+    </ul>}
+
+    {(tasks.length === 0) && <p>Задач нет, но ты можешь их добавить!</p>}
+  </div>
 );
 
-ItemList.defaultProps = { //без передачи задач из стейта вся логика ломается, но хоть не пустое окно остаётся
-  tasks: [{
-    value: 
-      `Кстати говоря, я ж так и не дошёл до того, чтобы посмотреть, как будут отображаться длинные строки, всё ли будет ок, либо же найдутся недостатки?)
-      P.S. Иконка корзины двигала текст при появлении, теперь пофиксил)
-      P.P.S. Если видите этот текст, то стоит подебажить пропсы)
-      `,
-    isDone: false,
-    id: 1,
-  }]
-}
 
 Item.propTypes = {
   tasks: PropTypes.array,

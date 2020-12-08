@@ -1,23 +1,41 @@
 import React from 'react';
 import Button from '@material-ui/core/Button';
 import ButtonGroup from '@material-ui/core/ButtonGroup';
-import styles from './Footer.module.css';
 import PropTypes from 'prop-types';
 
-const Footer = ({activeCounter, finishedTasks}) => (
-  <footer>
-    <p>Активных задач: {activeCounter}</p>
-    <p><small>Выполненых задач: {finishedTasks}</small></p>
-
-    <ButtonGroup size='small' aria-label='small outlined button group' className={styles.m10}>
-      <Button>Все задачи</Button>
-      <Button>Активные</Button>
-      <Button>Завершённые</Button>
-    </ButtonGroup>
-    <Button variant='contained' color='secondary'>
-      Удалить выполненные
-    </Button>
-  </footer>
+const Footer = ({
+  activeCounter,
+  finishedTasks,
+  showAll,
+  showActive,
+  showFinished,
+  deleteFinished,
+  filter}) => (
+    <footer>
+      <ButtonGroup size='small' aria-label='small outlined button group' style={{margin: '10px 0'}}>
+        <Button
+          variant={(filter === 'all') ? 'contained' : 'outlined'}
+          onClick={showAll}
+        >
+          Все задачи ({activeCounter + finishedTasks})
+        </Button>
+        <Button 
+          variant={(filter === 'active') ? 'contained' : 'outlined'}
+          onClick={showActive}
+        >
+          Активные ({activeCounter})
+        </Button>
+        <Button
+          variant={(filter === 'finished') ? 'contained' : 'outlined'}
+          onClick={showFinished}
+        >
+          Завершённые ({finishedTasks})
+        </Button>
+      </ButtonGroup>
+      <Button variant='contained' color='primary' onClick={deleteFinished}>
+        Удалить выполненные
+      </Button>
+    </footer>
 );
 
 Footer.propTypes = {

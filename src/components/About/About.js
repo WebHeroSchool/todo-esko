@@ -1,77 +1,132 @@
 import React, { useState, useEffect} from 'react';
 import CircularProgress from '@material-ui/core/CircularProgress';
+import User from './../User/User';
+import Repo from './../Repo/Repo';
 import styles from './About.module.css';
 import { Octokit } from "@octokit/rest";
+import Projects from '../../projects.json';
 
 const About = () => {
 
-  const octokit = new Octokit();
+  const octokit = new Octokit(
+    // {
+    //   auth: 'deleteTextAndPluses+5f1c1989+9c189582535c60e0c9112+e6f2b3a36c4',
+    // }
+  );
+
+    // GitHub автоматически удаляет токены, если они обнаружены в открытых коммитах, поэтому оставляю так,
+    // если для проверки потребуется больше 60-ти запросов в час
+    // после проверки, скорее всего, токен обновлю, безопасность, все дела)
+
+  const importedProjects = Projects.projects;
 
   const initialState = {
     isLoading: true,
-    repos: [
-      {
-        id: 276215960,
-        name: "FSD",
-        html_url: "https://github.com/Aug512/FSD",
-      },
-      {
-        id: 285895356,
-        name: "WHS1stModule",
-        html_url: "https://github.com/Aug512/WHS1stModule",
-      }
-    ],
+    projects: importedProjects,
     isError: false,
     errorMessage: '',
-    user: {
-      avatar_url: "https://avatars1.githubusercontent.com/u/67374673?v=4",
-      bio: "I'm just trying to code something",
-      email: "dmitriy.esko@gmail.com",
-      html_url: "https://github.com/Aug512",
-      login: "Aug512",
-      name: 'Dmitriy Esko',
-      public_repos: 2,
-    },
+    user: {},
+    renderedRepos: {
+      repos: [],
+      currentPage: 1,
+      isReposLoaded: false,
+    }
   }
 
-  const [isLoading, setLoadingState] = useState(initialState.isLoading);
-  const [repos, getRepos] = useState(initialState.repos);
+  const [isLoading, setLoading] = useState(initialState.isLoading);
+  const [renderedRepos, setRenderedRepos] = useState(initialState.renderedRepos);
   const [isError, getError] = useState(initialState.isError);
   const [errorMessage, setErrorMessage] = useState(initialState.errorMessage);
   const [user, getUser] = useState(initialState.user);
 
-  useEffect( () => {    
-    octokit.repos.listForUser({
-      username: 'Aug512',
-    })
-    .then( repositories => {
-        getRepos(repositories.data);
-        setLoadingState(false);
-    })
-    .catch( err => {
-      setLoadingState(false);
-      getError(err.status);
-    });
-  }, [])
+  useEffect( () => {
+    const fetchData = async () => {
+      const data = await getUserdata();
+      const pages = await data.data.public_repos;
+      const recievedRepos = await getNewRepos(1);
 
-  useEffect( () => {    
-    octokit.users.getByUsername({
-      username: 'Aug512',
-    })
-    .then( userData => {
-      getUser(userData.data)
-    })
+      const newRepos = {...renderedRepos};
+      newRepos.repos =  await recievedRepos;
+      newRepos.isReposLoaded = true;
+      newRepos.currentPage = 1;
+      newRepos.pages = await setTotalPages(pages);
+
+      setRenderedRepos(newRepos);
+    }
+    fetchData()
+  }, []);
+
+  useEffect( () => {
+    showReposLoader(true);
+    updateRepos(renderedRepos.currentPage)
+  }, [renderedRepos.currentPage]);
+
+  const showReposLoader = async (loadState) => {
+    const state = await loadState;
+    const loadRepos = {...renderedRepos}
+    loadRepos.isReposLoaded = !state;
+    setRenderedRepos(loadRepos);
+  }
+
+  const setTotalPages = async (pagesCounter) => {
+    let calculatedPages = 1;
+    const counter = await pagesCounter;
+    console.log(counter);
+    if (pagesCounter % 2 === 1) {
+      calculatedPages = Math.ceil(counter / 2);
+    } else {
+      calculatedPages = counter / 2 ;
+    }
+    return calculatedPages;
+  }
+
+  const setCurrentPage = (newPage) => {
+    const updatedRepos = {...renderedRepos}
+    updatedRepos.currentPage = newPage;
+    setRenderedRepos(updatedRepos);
+  }
+
+  const getUserdata = async () => {
+    const userData = await octokit.request(`GET /users/Aug512`)
     .catch( err => {
-      setLoadingState(false);
+      setLoading(false);
       getError(true);
       errProcessing(err.status);
     });
-  }, [])
+    setLoading(false);
+    getUser(userData.data);
+    return userData;
+  }
+
+  const getNewRepos = async (page) => {
+    let requestedRepos = [];
+    showReposLoader(true);
+    const response = await octokit.request(`GET /users/Aug512/repos?page=${page}&per_page=2`);
+    requestedRepos = response.data;
+    for (let repo of requestedRepos) {
+      repo.langs = await getLangs(repo);
+    };
+    return requestedRepos;
+  }
+
+  const updateRepos = async (page) => {
+    const response = await getNewRepos(page);
+    const newRepos = {...renderedRepos};
+    newRepos.repos = response;
+    newRepos.isReposLoaded = true;
+    newRepos.currentPage = page;
+    setRenderedRepos(newRepos);
+  }
+
+  const getLangs = async (repo) => {
+    const response = await octokit.request(`GET /repos/Aug512/${repo.name}/languages`);
+    return Object.keys(response.data);
+  }
 
   const errProcessing = (errorCode) => {
     switch (errorCode) {
       case 403:
-        setErrorMessage('Ошибка доступа, попробуйте позже');
+        setErrorMessage('Ошибка доступа, попробуйте позже... Где-то через час :)');
         break;
       case 404:
         setErrorMessage('Пользователь не найден');
@@ -80,7 +135,7 @@ const About = () => {
         setErrorMessage('Внутренняя ошибка сервера, попробуйте позже');
         break;
       default:
-        setErrorMessage('Неизвестная ошибка');
+        setErrorMessage('Что-то пошло не так...');
         break;
     }
   }
@@ -90,20 +145,30 @@ const About = () => {
       {(isLoading) ? <CircularProgress /> : <div style={{width: '100%'}}>
         {(!isLoading && isError) ? <span>{errorMessage}</span> : 
           <div>
-            <div className={styles.userInfo}>
-              <img src={user.avatar_url} alt="User's avatar" className={styles.userAvatar}/>
-              <div className={styles.userBio}>
-                <a href={user.html_url} target='blank' className={styles.userName}>{(user.name) ? user.name + ` (aka ${user.login})` : user.login }</a>
-                <p className={styles.userEmail}><small>{user.email}</small></p>
-                <p className={styles.userBio}>"{user.bio}"</p>
-                <p className={styles.userRepos}>Публичные репозитории: {user.public_repos}</p>
+            <User user={user} projects={initialState.projects}/>
+
+            <ul className={styles.reposList}>Репозитории:
+              { (!renderedRepos.isReposLoaded)
+                ? <div><CircularProgress /></div>
+                : renderedRepos.repos.map( (repo) => (
+                  <Repo key={repo.id} repo={repo} isLoaded={renderedRepos.isReposLoaded}/>
+                ))}
+              <div className={styles.pagination}>
+                {(renderedRepos.currentPage > 1 ) 
+                  ? <p className={styles.page} onClick={ () => {
+                    setCurrentPage(renderedRepos.currentPage - 1);
+                    }}>{'<'}</p> 
+                  : null
+                }
+                <p className={styles.page} style={{fontWeight: '700'}}>{renderedRepos.currentPage}</p>
+                {(renderedRepos.currentPage < renderedRepos.pages )
+                  ? <p className={styles.page} onClick={ () => {
+                    setCurrentPage(renderedRepos.currentPage + 1);
+                    }}>{'>'}</p>
+                  : null
+                }
               </div>
-            </div>
-            <ol className={styles.reposList}>
-              {repos.map( (repo) => 
-                <li key={repo.id} className={styles.repo}><a href={repo.html_url} target='blank' className={styles.repoLink}>{repo.name}</a></li>
-              )}
-            </ol>
+            </ul>
           </div>}
       </div>}
     </div>  

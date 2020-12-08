@@ -6,64 +6,29 @@
   width: 100%;
 }
 
-.userInfo {
-  display: flex;
-  justify-content: space-around;
-  width: 100%;
-  margin-bottom: 2em;
-}
-
-.userAvatar {
-  width: 150px;
-  border-radius: 50%;
-  border: 5px solid rgb(66, 83, 175);
-}
-
-.userBio {
-  text-decoration: none;
-  color: #555;
-  text-align: left;
-}
-
-.userName {
-  text-decoration: none;
-  color: #000;
-  font-size: 1.2rem;
-}
-
-.userName:hover {
-  color: rgb(66, 83, 175);
-  transition: color .4s ease-in-out;
-}
-
-.userEmail {
-  margin: 0;
-  color: #d0d0d0;
-}
-
-.userBio,
-.userRepos {
-  margin-top: .5em;
-  margin-bottom: .5em;
-}
-
 .reposList {
-  width: 60%;
+  width: 90%;
   margin: auto;
   text-align: center;
+  list-style: none;
+  padding: 10px;
+  border-radius: 5px;
+  border: 1px solid #c4c4c4;
+  background-color: #f3f3f3;
 }
 
-.repo {
+.pagination {
+  display: flex;
+  justify-content: center;
+  width: 100%;
+}
+
+.page {
+  font-size: 0.9em;
+  padding: 2px 3px;
+  border: 1px solid #c4c4c4;
+  background-color: #fff;
+  border-radius: 2px;
+  margin: 2px;
   cursor: pointer;
-  font-size: 1.2rem;
-}
-
-.repoLink {
-  text-decoration: none;
-  color: #000;
-}
-.repo:hover,
-.repo:hover > .repoLink {
-  color: rgb(66, 83, 175);
-  transition: color .4s ease-in-out;
 }
